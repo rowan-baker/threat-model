@@ -1,0 +1,421 @@
+{
+  "summary": {
+    "title": "Generic Development Pipeline Threat Model",
+    "owner": "Rowan Baker",
+    "description": "A generic threat model for a CI/CD pipeline"
+  },
+  "detail": {
+    "contributors": [],
+    "diagrams": [
+      {
+        "title": "Automated Pipeline Threat Model- Threats to Code and Artifact Integrity",
+        "thumbnail": "./public/content/images/thumbnail.jpg",
+        "id": 0,
+        "$$hashKey": "object:16",
+        "diagramJson": {
+          "cells": [
+            {
+              "type": "tm.Process",
+              "size": {
+                "width": 100,
+                "height": 100
+              },
+              "position": {
+                "x": 466,
+                "y": 41
+              },
+              "angle": 0,
+              "id": "39c20fa0-9402-4e3e-b8b6-b3528d7d88ad",
+              "z": 1,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Github CLI/UI"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Actor",
+              "size": {
+                "width": 160,
+                "height": 80
+              },
+              "position": {
+                "x": 106,
+                "y": 28
+              },
+              "angle": 0,
+              "id": "a9b266ae-39ba-4ac8-ad71-dfd03d849f83",
+              "z": 2,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Developer 1"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Store",
+              "size": {
+                "width": 160,
+                "height": 80
+              },
+              "position": {
+                "x": 303,
+                "y": 308
+              },
+              "angle": 0,
+              "id": "b5a90e7b-0940-43dc-a3b4-c8e490f50fdb",
+              "z": 3,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Code Store"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Store",
+              "size": {
+                "width": 160,
+                "height": 80
+              },
+              "position": {
+                "x": 557,
+                "y": 313
+              },
+              "angle": 0,
+              "id": "cf213c0d-7a9e-4313-8b63-a88ea0b38697",
+              "z": 5,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "User Credential Store"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Boundary",
+              "smooth": true,
+              "source": {
+                "x": 262,
+                "y": 352
+              },
+              "target": {
+                "x": 768,
+                "y": 378
+              },
+              "vertices": [
+                {
+                  "x": 362,
+                  "y": 75
+                },
+                {
+                  "x": 575,
+                  "y": 28
+                },
+                {
+                  "x": 700,
+                  "y": 171
+                }
+              ],
+              "id": "0147532f-ca56-44f5-b91f-8b5b1d50c78e",
+              "z": 6,
+              "attrs": {}
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "39c20fa0-9402-4e3e-b8b6-b3528d7d88ad"
+              },
+              "target": {
+                "id": "b5a90e7b-0940-43dc-a3b4-c8e490f50fdb"
+              },
+              "vertices": [
+                {
+                  "x": 464,
+                  "y": 201
+                }
+              ],
+              "id": "1e50395d-fd0e-4bef-ad15-ddedf83a35d7",
+              "labels": [
+                {
+                  "position": {
+                    "distance": 0.49470677046773315,
+                    "offset": -31.97578650689684
+                  },
+                  "attrs": {
+                    "text": {
+                      "text": "Store Code",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 7,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "b5a90e7b-0940-43dc-a3b4-c8e490f50fdb"
+              },
+              "target": {
+                "id": "39c20fa0-9402-4e3e-b8b6-b3528d7d88ad"
+              },
+              "vertices": [
+                {
+                  "x": 359,
+                  "y": 229
+                }
+              ],
+              "id": "b467461e-c215-40ab-9c35-4a3184780b96",
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "Retrieve Code",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 8,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "39c20fa0-9402-4e3e-b8b6-b3528d7d88ad"
+              },
+              "target": {
+                "id": "cf213c0d-7a9e-4313-8b63-a88ea0b38697"
+              },
+              "vertices": [
+                {
+                  "x": 619,
+                  "y": 133
+                },
+                {
+                  "x": 637,
+                  "y": 200
+                }
+              ],
+              "id": "fcca82e7-a6c0-4bd8-aee6-e6d5595462c8",
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "Store Credentials",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 9,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "cf213c0d-7a9e-4313-8b63-a88ea0b38697"
+              },
+              "target": {
+                "id": "39c20fa0-9402-4e3e-b8b6-b3528d7d88ad"
+              },
+              "vertices": [],
+              "id": "9882e65f-bfda-4646-b1a0-4ce671361d64",
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "Auth (?)",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 10,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Process",
+              "size": {
+                "width": 100,
+                "height": 100
+              },
+              "position": {
+                "x": 963,
+                "y": 269
+              },
+              "angle": 0,
+              "id": "0353d7c9-1a8b-4615-ac4a-e0f46fcc81d3",
+              "z": 11,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Jenkins"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Process",
+              "size": {
+                "width": 100,
+                "height": 100
+              },
+              "position": {
+                "x": 956,
+                "y": 1
+              },
+              "angle": 0,
+              "id": "8346d2c6-60f3-4852-a9d5-c14c2e844a6a",
+              "z": 12,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Artifactory"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Process",
+              "size": {
+                "width": 100,
+                "height": 100
+              },
+              "position": {
+                "x": 1335,
+                "y": 243
+              },
+              "angle": 0,
+              "id": "850187c3-9a6a-4330-bc78-6a93c21102db",
+              "z": 13,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Development\nEnvironment"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Store",
+              "size": {
+                "width": 160,
+                "height": 80
+              },
+              "position": {
+                "x": 927,
+                "y": 468
+              },
+              "angle": 0,
+              "id": "cafab1a7-3f1a-4f7d-8c2e-bb25beef4c7d",
+              "z": 14,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "EBS Jenkins Store"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            }
+          ]
+        },
+        "size": {
+          "height": 2176.04443359375,
+          "width": 2321.9169921875
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,1660 @@
+{
+  "summary": {
+    "title": "Generic Development Pipeline Threat Model",
+    "owner": "Rowan Baker",
+    "description": "A generic threat model for a CI/CD pipeline"
+  },
+  "detail": {
+    "contributors": [],
+    "diagrams": [
+      {
+        "title": "Automated Pipeline Threat Model- Threats to Code and Containers & CI Tooling Only",
+        "thumbnail": "./public/content/images/thumbnail.jpg",
+        "id": 0,
+        "$$hashKey": "object:16",
+        "diagramJson": {
+          "cells": [
+            {
+              "type": "tm.Process",
+              "size": {
+                "width": 100,
+                "height": 100
+              },
+              "position": {
+                "x": 341,
+                "y": 547
+              },
+              "angle": 0,
+              "id": "39c20fa0-9402-4e3e-b8b6-b3528d7d88ad",
+              "z": 1,
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "ruleId": "b2a6d40d-d3f8-4750-8e4d-c02cc84b13dc",
+                  "title": "Github endpoints are spoofed",
+                  "type": "Spoofing",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "GIthub endpoints are spoofed and used to serve malicious code to a recepient, or used to compromise a users submitted credentials, or confidentiality of submitted code.",
+                  "mitigation": "Use of HTTPS validates the Github server by default.\nEnsure Developers validate server key fingerprint on first connection.",
+                  "$$hashKey": "object:55"
+                },
+                {
+                  "ruleId": "4adaa48a-0345-4533-a189-64c98c4420dd",
+                  "title": "Project Code stored in Github is tampered  with by Github employee",
+                  "type": "Tampering",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "Github consumed as a SaaS, with GIthub employees having access to customer data. A rogue employee could tamper with a project's code.",
+                  "mitigation": "Github internal processes (out of scope)\nCode Signing\nAcceptance as a residual risk by the project.",
+                  "$$hashKey": "object:64"
+                },
+                {
+                  "ruleId": "13000296-b17d-4b72-9cc4-f5cc33f80e4c",
+                  "title": "Project Code/User Credentials are accessed by a Github employee",
+                  "type": "Information disclosure",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "Github consumed as a SaaS, with GIthub employees having access to customer data. A rogue employee could view a project's code and embedded credentials or user credentials.",
+                  "mitigation": "Don't hardcode credentials within code. Store them in github encrypted.\nUser Credential policy.\nResidual risk that needs accepting by the business.",
+                  "$$hashKey": "object:80"
+                },
+                {
+                  "ruleId": "edb05d76-a695-455f-947b-7d67b78bc31d",
+                  "title": "GIthub is subject to DoS attack",
+                  "type": "Denial of service",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "GIthub is subject to a DoS attack, making a projects code inaccessible.",
+                  "mitigation": "Mitigations against DoS/DDoS attacks are managed by github\nTemporary loss of service is a residual risk that needs to be accepted by the business.",
+                  "$$hashKey": "object:89"
+                },
+                {
+                  "ruleId": "c1377855-ea20-4c97-8861-f95c364fb8d2",
+                  "title": "Github co-tenant bypasses RBAC controls to access a projects private repo",
+                  "type": "Elevation of privilege",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "Github co-tenant bypasses RBAC controls to access a projects private repo.\n\nConfidentiality of code and embedded plaintext credentials compromised",
+                  "mitigation": "GIthub manage and develop the RBAC controls for the service.\nResidual risk that requires sign off by the business.\nEncrypt credentials",
+                  "$$hashKey": "object:98"
+                },
+                {
+                  "ruleId": "4adaa48a-0345-4533-a189-64c98c4420dd",
+                  "title": "Developer accidentally/deliberately commits a malicious/vulnerable piece of code.",
+                  "type": "Tampering",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "Developer accidentally/deliberately commits a malicious/vulnerable piece of code.",
+                  "mitigation": "Coding Standards\nPeer Review\nStatic Code Analysis\nDynamic Security Testing tools...\nGPG signing for non-repudiation",
+                  "$$hashKey": "object:114"
+                },
+                {
+                  "ruleId": "13000296-b17d-4b72-9cc4-f5cc33f80e4c",
+                  "title": "Plaintext Credentials embedded within code",
+                  "type": "Information disclosure",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "Plaintext credentials are embedded within  code, and can be observed and used for malicious purposes by those with access to the repo.",
+                  "mitigation": "Encrypt credentials when storing within Git using a project such as Gitcrypt.",
+                  "$$hashKey": "object:130"
+                },
+                {
+                  "ruleId": "edb05d76-a695-455f-947b-7d67b78bc31d",
+                  "title": "Github permanent loss of data",
+                  "type": "Denial of service",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "A major Github outage results in the loss of customer data, such as projects stored by the project.",
+                  "mitigation": "Offline Backup\nBackup with another supplier\nInformally code can be retrieved from developer EUDs\nBusiness to accept residual risk",
+                  "$$hashKey": "object:139"
+                },
+                {
+                  "ruleId": "c1377855-ea20-4c97-8861-f95c364fb8d2",
+                  "title": "User RBAC misconfiguration/privilige creep",
+                  "type": "Elevation of privilege",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "A user is either assigned into the wrong role, or obtains greater permissions than required owing to privilige creep.",
+                  "mitigation": "User Audit",
+                  "$$hashKey": "object:148"
+                },
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "title": "Standard GIthub user is able to view a Projects code",
+                  "type": "Information disclosure",
+                  "description": "A Github user that is not a member of the project or organisation is able to view a projects code.\n\nImpacts of this include: loss of IP, exposure and malicious usage of embedded plaintext credentials.",
+                  "mitigation": "Use of private repositories.\nRBAC and least privilege enforcement within an organisation.",
+                  "$$hashKey": "object:66"
+                },
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "title": "Former Employee is able to tamper with a projects code",
+                  "type": "Tampering",
+                  "description": "Due to a lack of offboarding, a former employee uses access to tamper with a projects code",
+                  "mitigation": "Offboarding Policy/Procedure\nUser Audit\nPeer review\nGPG signing for non-repudiation",
+                  "$$hashKey": "object:72"
+                },
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "title": "Former Employee is able to view a projects code",
+                  "type": "Information disclosure",
+                  "description": "Due to a lack of offboarding, a former employee is able to view a projects code.\n\nPotential impacts include: loss of IP, malicious use of plaintext credentials.",
+                  "mitigation": "User Audit\nOffboarding policy/procedures\nEncrypt stored credentials",
+                  "$$hashKey": "object:84"
+                },
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "title": "Misconfigured Bot account",
+                  "type": "Elevation of privilege",
+                  "mitigation": "RBAC Least privilege \nUser Audit",
+                  "description": "Bot credentials for use by CI servers etc do not enforce least privilege. A threat actor or impatient insider will inherit these privileges and can abuse them.",
+                  "$$hashKey": "object:73"
+                },
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "title": "Privileged Account Compromised",
+                  "type": "Denial of service",
+                  "description": "A privileged account, such as an Organisation Owner or Repo admins  account is compromised.\n\nThese are highly privileged accounts with the ability to delete an organisations account, including all repos.",
+                  "mitigation": "Strong Authentication with 2FA\nEnforce least privilege\nInvestigate the use of Owner accounts as a Break Glass Account\nEUD hardened in line with best practice/organisational policy",
+                  "$$hashKey": "object:72"
+                }
+              ],
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Github CLI/UI"
+                },
+                ".element-text": {
+                  "class": "element-text hasOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Actor",
+              "size": {
+                "width": 160,
+                "height": 80
+              },
+              "position": {
+                "x": 504,
+                "y": 293
+              },
+              "angle": 0,
+              "id": "a9b266ae-39ba-4ac8-ad71-dfd03d849f83",
+              "z": 2,
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "ruleId": "b2a6d40d-d3f8-4750-8e4d-c02cc84b13dc",
+                  "title": "Users Credentials are compromised and a threat actor impersonates the user.",
+                  "type": "Spoofing",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "User Credentials - Passwords, SSH keys, access tokens are stored in plain text on a users device. If these are compromised, a threat actor could assume the identity of the user to compromise integrity, availability or confidentiality of code in GIthub",
+                  "mitigation": "EUD hardening \nPassword policy\nFor HTTPS GUI access - enforce 2FA\nFor SSH CLI access - add a password to be used on key usage\nStore SSH keys on a seperate hardware token. \nDaily expiry of Access tokens and reissuing via GUI with 2FA enforced (?)",
+                  "$$hashKey": "object:51"
+                },
+                {
+                  "ruleId": "87bc37e2-798e-4d68-bb96-feb1da26da48",
+                  "title": "Developer performs malicious action and denies it, blaming credential compromise",
+                  "type": "Repudiation",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "A developer performs a malicious action (e.g. a commit consisting of malicious code) and denies undertaking it, blaming a compromise of credentials.",
+                  "mitigation": "Signing of commits/merges using gpg key on hardware token.\nStrong authentication consisting of 2 factors.",
+                  "$$hashKey": "object:57"
+                }
+              ],
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Developer"
+                },
+                ".element-text": {
+                  "class": "element-text hasOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Store",
+              "size": {
+                "width": 160,
+                "height": 80
+              },
+              "position": {
+                "x": 141,
+                "y": 711
+              },
+              "angle": 0,
+              "id": "b5a90e7b-0940-43dc-a3b4-c8e490f50fdb",
+              "z": 3,
+              "hasOpenThreats": false,
+              "outOfScope": true,
+              "reasonOutOfScope": "Provided as part of a SAAS, transparent to the customer.",
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isOutOfScope"
+                },
+                "text": {
+                  "text": "Code Store"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Store",
+              "size": {
+                "width": 160,
+                "height": 80
+              },
+              "position": {
+                "x": 396,
+                "y": 736
+              },
+              "angle": 0,
+              "id": "cf213c0d-7a9e-4313-8b63-a88ea0b38697",
+              "z": 5,
+              "hasOpenThreats": false,
+              "outOfScope": true,
+              "reasonOutOfScope": "Provided as part of a SAAS, transparent to the customer.",
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isOutOfScope"
+                },
+                "text": {
+                  "text": "User Credential Store"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "39c20fa0-9402-4e3e-b8b6-b3528d7d88ad"
+              },
+              "target": {
+                "id": "b5a90e7b-0940-43dc-a3b4-c8e490f50fdb"
+              },
+              "vertices": [
+                {
+                  "x": 214,
+                  "y": 623
+                }
+              ],
+              "id": "1e50395d-fd0e-4bef-ad15-ddedf83a35d7",
+              "labels": [
+                {
+                  "position": {
+                    "distance": 0.7209412133132349,
+                    "offset": 40.278903955593705
+                  },
+                  "attrs": {
+                    "text": {
+                      "text": "Store Code",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 7,
+              "hasOpenThreats": false,
+              "outOfScope": true,
+              "reasonOutOfScope": "Provided as part of a SAAS, transparent to the customer.",
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isOutOfScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "b5a90e7b-0940-43dc-a3b4-c8e490f50fdb"
+              },
+              "target": {
+                "id": "39c20fa0-9402-4e3e-b8b6-b3528d7d88ad"
+              },
+              "vertices": [],
+              "id": "b467461e-c215-40ab-9c35-4a3184780b96",
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "Retrieve Code",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 8,
+              "hasOpenThreats": false,
+              "outOfScope": true,
+              "reasonOutOfScope": "Provided as part of a SAAS, transparent to the customer.",
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isOutOfScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "39c20fa0-9402-4e3e-b8b6-b3528d7d88ad"
+              },
+              "target": {
+                "id": "cf213c0d-7a9e-4313-8b63-a88ea0b38697"
+              },
+              "vertices": [],
+              "id": "fcca82e7-a6c0-4bd8-aee6-e6d5595462c8",
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "Store Credentials",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 9,
+              "hasOpenThreats": false,
+              "outOfScope": true,
+              "reasonOutOfScope": "Provided as part of a SAAS, transparent to the customer.",
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isOutOfScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "cf213c0d-7a9e-4313-8b63-a88ea0b38697"
+              },
+              "target": {
+                "id": "39c20fa0-9402-4e3e-b8b6-b3528d7d88ad"
+              },
+              "vertices": [
+                {
+                  "x": 519,
+                  "y": 680
+                }
+              ],
+              "id": "9882e65f-bfda-4646-b1a0-4ce671361d64",
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "Auth (?)",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 10,
+              "hasOpenThreats": false,
+              "outOfScope": true,
+              "reasonOutOfScope": "Provided as part of a SAAS, transparent to the customer.",
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isOutOfScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Process",
+              "size": {
+                "width": 100,
+                "height": 100
+              },
+              "position": {
+                "x": 947,
+                "y": 555
+              },
+              "angle": 0,
+              "id": "0353d7c9-1a8b-4615-ac4a-e0f46fcc81d3",
+              "z": 11,
+              "hasOpenThreats": false,
+              "privilegeLevel": "Elevated",
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Jenkins Docker"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Process",
+              "size": {
+                "width": 100,
+                "height": 100
+              },
+              "position": {
+                "x": 1012,
+                "y": 246
+              },
+              "angle": 0,
+              "id": "8346d2c6-60f3-4852-a9d5-c14c2e844a6a",
+              "z": 12,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Artifactory"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Process",
+              "size": {
+                "width": 100,
+                "height": 100
+              },
+              "position": {
+                "x": 1216,
+                "y": 551
+              },
+              "angle": 0,
+              "id": "850187c3-9a6a-4330-bc78-6a93c21102db",
+              "z": 13,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Deployed\nApplication"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Store",
+              "size": {
+                "width": 160,
+                "height": 80
+              },
+              "position": {
+                "x": 879,
+                "y": 821
+              },
+              "angle": 0,
+              "id": "cafab1a7-3f1a-4f7d-8c2e-bb25beef4c7d",
+              "z": 14,
+              "hasOpenThreats": true,
+              "isEncrypted": true,
+              "storesCredentials": true,
+              "threats": [
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "title": "EBS data accessed by AWS administrator",
+                  "type": "Information disclosure",
+                  "description": "EBS is an Amazon service, it could be accessed by an AWS administrator, revealing the Jenkins config including bot credentials.",
+                  "mitigation": "Amazon service management processes are out of scope\nUsing AWS KMS for encryption increases the number of AWS personnel required to access the data in plaintext. Reducing the likelihood of a compromise in confidentiality.",
+                  "$$hashKey": "object:92"
+                }
+              ],
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "AWS EBS Jenkins Store"
+                },
+                ".element-text": {
+                  "class": "element-text hasOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "a9b266ae-39ba-4ac8-ad71-dfd03d849f83"
+              },
+              "target": {
+                "id": "39c20fa0-9402-4e3e-b8b6-b3528d7d88ad"
+              },
+              "vertices": [],
+              "id": "7ecb4ee2-decd-4bcf-984a-0e0f07bfa9e6",
+              "labels": [
+                {
+                  "position": {
+                    "distance": 0.3893189754535562,
+                    "offset": -3.3955933833494782
+                  },
+                  "attrs": {
+                    "text": {
+                      "text": "HTTPS CLI/GUI\nCommit/Merge Code",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 15,
+              "hasOpenThreats": true,
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "protocol": "HTTPS",
+              "threats": [
+                {
+                  "ruleId": "4adaa48a-0345-4533-a189-64c98c4420dd",
+                  "title": "Committed Code is tampered with in transit",
+                  "type": "Tampering",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "Developer > Github interaction is subject to a MITM attack and code is tampered with in transit",
+                  "mitigation": "Use of HTTPS. The client browser must be kept up to date to support the most up to date ciphers.",
+                  "$$hashKey": "object:73"
+                },
+                {
+                  "ruleId": "13000296-b17d-4b72-9cc4-f5cc33f80e4c",
+                  "title": "Code confidentiality in transit is compromised due to packet sniffing",
+                  "type": "Information disclosure",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "description": "Code confidentiality in transit is disclosed due to packet sniffing by a threat actor, compromising confidentiality of code and embedded plaintext credentials.",
+                  "mitigation": "Encrypt in transit using HTTPS. Keep client browser up to date to support up to date ciphers",
+                  "$$hashKey": "object:82"
+                },
+                {
+                  "ruleId": "edb05d76-a695-455f-947b-7d67b78bc31d",
+                  "title": "Lack of connectivity to Github",
+                  "type": "Denial of service",
+                  "status": "Mitigated",
+                  "severity": "Medium",
+                  "description": "",
+                  "mitigation": "It's reachable over the internet....",
+                  "$$hashKey": "object:91"
+                }
+              ],
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "a9b266ae-39ba-4ac8-ad71-dfd03d849f83"
+              },
+              "target": {
+                "id": "39c20fa0-9402-4e3e-b8b6-b3528d7d88ad"
+              },
+              "vertices": [
+                {
+                  "x": 316,
+                  "y": 490
+                }
+              ],
+              "id": "159fdc50-cdfd-483e-949a-ebf87fa92d60",
+              "labels": [
+                {
+                  "position": {
+                    "distance": 0.4110159177259473,
+                    "offset": 10.178901767823845
+                  },
+                  "attrs": {
+                    "text": {
+                      "text": "SSH Commit/Merge\nCode",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 16,
+              "hasOpenThreats": false,
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "protocol": "SSH",
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "0353d7c9-1a8b-4615-ac4a-e0f46fcc81d3"
+              },
+              "target": {
+                "id": "39c20fa0-9402-4e3e-b8b6-b3528d7d88ad"
+              },
+              "vertices": [
+                {
+                  "x": 652,
+                  "y": 607
+                }
+              ],
+              "id": "4459b9ab-3bb8-4277-ac4a-e5a20af77ddf",
+              "labels": [
+                {
+                  "position": {
+                    "distance": 0.4270419770872347,
+                    "offset": 14.155486952513456
+                  },
+                  "attrs": {
+                    "text": {
+                      "text": "Watch and Pull Code",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 18,
+              "hasOpenThreats": false,
+              "protocol": "SSH",
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Actor",
+              "size": {
+                "width": 160,
+                "height": 80
+              },
+              "position": {
+                "x": 565,
+                "y": 975
+              },
+              "angle": 0,
+              "id": "b0d7e2a4-0bef-4b1d-82e9-32e9d31e4ecc",
+              "z": 19,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Admin"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "b0d7e2a4-0bef-4b1d-82e9-32e9d31e4ecc"
+              },
+              "target": {
+                "id": "39c20fa0-9402-4e3e-b8b6-b3528d7d88ad"
+              },
+              "vertices": [
+                {
+                  "x": 494,
+                  "y": 934
+                },
+                {
+                  "x": 355,
+                  "y": 828
+                }
+              ],
+              "id": "8ef63865-aeb5-4b01-b800-171b29847751",
+              "labels": [
+                {
+                  "position": {
+                    "distance": 0.510698796801148,
+                    "offset": -14.474179013632238
+                  },
+                  "attrs": {
+                    "text": {
+                      "text": "DIrectly Manage\nAccounts",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 21,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Process",
+              "size": {
+                "width": 100,
+                "height": 100
+              },
+              "position": {
+                "x": 1137,
+                "y": 691
+              },
+              "angle": 0,
+              "id": "b167ae12-6523-4afc-86fd-fd2523bbaad8",
+              "z": 23,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Hosting\nPlatform(Kube)"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Process",
+              "size": {
+                "width": 100,
+                "height": 100
+              },
+              "position": {
+                "x": 1135,
+                "y": 809
+              },
+              "angle": 0,
+              "id": "84e236a2-ce8c-4a24-b432-dfc4952a6217",
+              "z": 24,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "AWS ec2 Host"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Store",
+              "size": {
+                "width": 160,
+                "height": 80
+              },
+              "position": {
+                "x": 1115,
+                "y": 934
+              },
+              "angle": 0,
+              "id": "b41e0b14-caa0-4983-84bd-8d4973fbe453",
+              "z": 25,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "AWS EBS State Store"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Process",
+              "size": {
+                "width": 100,
+                "height": 100
+              },
+              "position": {
+                "x": 936,
+                "y": 714
+              },
+              "angle": 0,
+              "id": "883cdbd9-1fcc-4559-ad1b-0a10334e5610",
+              "z": 26,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "AWS EC2 Host"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Process",
+              "size": {
+                "width": 100,
+                "height": 100
+              },
+              "position": {
+                "x": 911,
+                "y": 934
+              },
+              "angle": 0,
+              "id": "fedfbae0-d713-4050-ab83-fddcf53bc326",
+              "z": 27,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "AWS\nManagement"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "b0d7e2a4-0bef-4b1d-82e9-32e9d31e4ecc"
+              },
+              "target": {
+                "id": "0353d7c9-1a8b-4615-ac4a-e0f46fcc81d3"
+              },
+              "vertices": [
+                {
+                  "x": 716,
+                  "y": 762
+                },
+                {
+                  "x": 757,
+                  "y": 637
+                }
+              ],
+              "id": "abbc384e-bd6c-4597-ba15-8b48873cb240",
+              "labels": [
+                {
+                  "position": {
+                    "distance": 0.2219718335301569,
+                    "offset": -21.86331183835864
+                  },
+                  "attrs": {
+                    "text": {
+                      "text": "Manage Jenkins\nConfig",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 28,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "0353d7c9-1a8b-4615-ac4a-e0f46fcc81d3"
+              },
+              "target": {
+                "id": "39c20fa0-9402-4e3e-b8b6-b3528d7d88ad"
+              },
+              "vertices": [
+                {
+                  "x": 613,
+                  "y": 518
+                }
+              ],
+              "id": "de993f82-32d2-4759-8115-9893a6b22532",
+              "labels": [
+                {
+                  "position": {
+                    "distance": 0.5703200230282311,
+                    "offset": -24.869367718696594
+                  },
+                  "attrs": {
+                    "text": {
+                      "text": "Pull Build & Test\nScripts",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 29,
+              "hasOpenThreats": false,
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Process",
+              "size": {
+                "width": 100,
+                "height": 100
+              },
+              "position": {
+                "x": 827,
+                "y": 617
+              },
+              "angle": 0,
+              "id": "7558ef31-b4a4-4b9e-9e0b-9285f70e7a22",
+              "z": 31,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "Build and Test\nJobs in Docker"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Boundary",
+              "smooth": true,
+              "source": {
+                "x": 861,
+                "y": 1057
+              },
+              "target": {
+                "x": 1320,
+                "y": 1068
+              },
+              "vertices": [
+                {
+                  "x": 808,
+                  "y": 945
+                },
+                {
+                  "x": 831,
+                  "y": 590
+                },
+                {
+                  "x": 1357,
+                  "y": 555
+                }
+              ],
+              "id": "b5c02b0e-b071-4055-b348-2cc482c4a243",
+              "z": 32,
+              "attrs": {}
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "0353d7c9-1a8b-4615-ac4a-e0f46fcc81d3"
+              },
+              "target": {
+                "id": "883cdbd9-1fcc-4559-ad1b-0a10334e5610"
+              },
+              "vertices": [],
+              "id": "aed59859-4f20-4c7a-ae12-87fa6c5dfe00",
+              "labels": [
+                {
+                  "position": {
+                    "distance": 0.3248202621111074,
+                    "offset": -38.24011001549661
+                  },
+                  "attrs": {
+                    "text": {
+                      "text": "OrchestrateJobs",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 34,
+              "hasOpenThreats": false,
+              "outOfScope": true,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isOutOfScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "883cdbd9-1fcc-4559-ad1b-0a10334e5610"
+              },
+              "target": {
+                "id": "7558ef31-b4a4-4b9e-9e0b-9285f70e7a22"
+              },
+              "vertices": [],
+              "id": "10a6db2a-a800-4bd2-a09c-9df2c664fc78",
+              "labels": [
+                {
+                  "position": {
+                    "distance": 0.5700722334996651,
+                    "offset": -18.08144082687795
+                  },
+                  "attrs": {
+                    "text": {
+                      "text": "Run Jobs",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 35,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "0353d7c9-1a8b-4615-ac4a-e0f46fcc81d3"
+              },
+              "target": {
+                "id": "8346d2c6-60f3-4852-a9d5-c14c2e844a6a"
+              },
+              "vertices": [],
+              "id": "2d35c820-f159-441c-b547-eed9d290caa4",
+              "labels": [
+                {
+                  "position": {
+                    "distance": 0.8732678815437762,
+                    "offset": -26.63426382187754
+                  },
+                  "attrs": {
+                    "text": {
+                      "text": "Tag & Push\nContainer/Image",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 36,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "b0d7e2a4-0bef-4b1d-82e9-32e9d31e4ecc"
+              },
+              "target": {
+                "id": "883cdbd9-1fcc-4559-ad1b-0a10334e5610"
+              },
+              "vertices": [
+                {
+                  "x": 798,
+                  "y": 861
+                }
+              ],
+              "id": "53269ee3-ad12-4464-94bf-6ed38a622239",
+              "labels": [
+                {
+                  "position": {
+                    "distance": 0.26529893493423795,
+                    "offset": -22.76396658271551
+                  },
+                  "attrs": {
+                    "text": {
+                      "text": "Manage",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 38,
+              "hasOpenThreats": false,
+              "protocol": "SSH",
+              "isEncrypted": true,
+              "isPublicNetwork": true,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "b167ae12-6523-4afc-86fd-fd2523bbaad8"
+              },
+              "target": {
+                "id": "8346d2c6-60f3-4852-a9d5-c14c2e844a6a"
+              },
+              "vertices": [],
+              "id": "1b3d7373-1e89-45b9-aa2a-c24f22cbac85",
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "Pull Image",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 39,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "a9b266ae-39ba-4ac8-ad71-dfd03d849f83"
+              },
+              "target": {
+                "id": "8346d2c6-60f3-4852-a9d5-c14c2e844a6a"
+              },
+              "vertices": [],
+              "id": "8d4e0c66-f7f9-4ddf-9fd2-e6bcf2625ee9",
+              "labels": [
+                {
+                  "position": {
+                    "distance": 0.525303177574172,
+                    "offset": -11.889267086051404
+                  },
+                  "attrs": {
+                    "text": {
+                      "text": "TBC?",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 40,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "b167ae12-6523-4afc-86fd-fd2523bbaad8"
+              },
+              "target": {
+                "id": "850187c3-9a6a-4330-bc78-6a93c21102db"
+              },
+              "vertices": [],
+              "id": "d37bf2cf-67ba-4739-97cd-d9aa4b613714",
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "Orchestrate",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 41,
+              "hasOpenThreats": false,
+              "outOfScope": true,
+              "reasonOutOfScope": "Within scope of Platform Threat Modelling",
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isOutOfScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "a9b266ae-39ba-4ac8-ad71-dfd03d849f83"
+              },
+              "target": {
+                "id": "0353d7c9-1a8b-4615-ac4a-e0f46fcc81d3"
+              },
+              "vertices": [
+                {
+                  "x": 661,
+                  "y": 482
+                }
+              ],
+              "id": "d32d7738-0629-429e-bdb3-a638a9464d0e",
+              "labels": [
+                {
+                  "position": {
+                    "distance": 0.3311934457031799,
+                    "offset": -33.103902532719076
+                  },
+                  "attrs": {
+                    "text": {
+                      "text": "Monitor build jobs",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 42,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Store",
+              "size": {
+                "width": 160,
+                "height": 80
+              },
+              "position": {
+                "x": 837,
+                "y": 23
+              },
+              "angle": 0,
+              "id": "ba993272-f2e5-4cd4-9ed3-d15ca7d8a694",
+              "z": 43,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "store 35"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Store",
+              "size": {
+                "width": 160,
+                "height": 80
+              },
+              "position": {
+                "x": 1015,
+                "y": 32
+              },
+              "angle": 0,
+              "id": "6c6523a0-7683-4092-8858-83ffb8853fd2",
+              "z": 44,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "store 36"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Process",
+              "size": {
+                "width": 100,
+                "height": 100
+              },
+              "position": {
+                "x": 776,
+                "y": 373
+              },
+              "angle": 0,
+              "id": "eb44183a-7483-463b-96b8-1291267967f8",
+              "z": 45,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasNoOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "OKTA SSO"
+                },
+                ".element-text": {
+                  "class": "element-text hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "a9b266ae-39ba-4ac8-ad71-dfd03d849f83"
+              },
+              "target": {
+                "id": "eb44183a-7483-463b-96b8-1291267967f8"
+              },
+              "vertices": [
+                {
+                  "x": 736,
+                  "y": 399
+                }
+              ],
+              "id": "94d29cb1-9a07-465c-91e7-ab5f26303145",
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "User Auth",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 46,
+              "hasOpenThreats": false,
+              "outOfScope": true,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isOutOfScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "eb44183a-7483-463b-96b8-1291267967f8"
+              },
+              "target": {
+                "id": "0353d7c9-1a8b-4615-ac4a-e0f46fcc81d3"
+              },
+              "vertices": [],
+              "id": "04fc82eb-fd53-4244-9738-545bf9afdbaf",
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "SAML Auth (TBC)",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 47,
+              "hasOpenThreats": false,
+              "outOfScope": true,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isOutOfScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "b0d7e2a4-0bef-4b1d-82e9-32e9d31e4ecc"
+              },
+              "target": {
+                "id": "8346d2c6-60f3-4852-a9d5-c14c2e844a6a"
+              },
+              "vertices": [
+                {
+                  "x": 421,
+                  "y": 1030
+                },
+                {
+                  "x": 74,
+                  "y": 991
+                },
+                {
+                  "x": 17,
+                  "y": 601
+                }
+              ],
+              "id": "cce89cbf-be3d-4333-89b6-f3fae69b7407",
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "DIrectly Mangage\nUsers",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 48,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Boundary",
+              "smooth": true,
+              "source": {
+                "x": 377,
+                "y": 900
+              },
+              "target": {
+                "x": 374,
+                "y": 899
+              },
+              "vertices": [
+                {
+                  "x": 186,
+                  "y": 858
+                },
+                {
+                  "x": 117,
+                  "y": 711
+                },
+                {
+                  "x": 136,
+                  "y": 636
+                },
+                {
+                  "x": 217,
+                  "y": 517
+                },
+                {
+                  "x": 553,
+                  "y": 499
+                },
+                {
+                  "x": 589,
+                  "y": 876
+                }
+              ],
+              "id": "6dccfb3a-316f-49bf-a1a2-f650fb421e58",
+              "z": 50,
+              "attrs": {}
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "x": 30,
+                "y": 20
+              },
+              "target": {
+                "x": 110,
+                "y": 100
+              },
+              "vertices": [],
+              "id": "44ae89eb-1f0d-45e7-999a-4f1eac617d6c",
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "flow 41",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 51,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            }
+          ]
+        },
+        "size": {
+          "height": 4453.39404296875,
+          "width": 3992.337890625
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "summary": {
+    "title": "Generic 3 tier db app",
+    "owner": "RBaker",
+    "description": "Generic 3 tier db app"
+  },
+  "detail": {
+    "contributors": [],
+    "diagrams": [
+      {
+        "title": "3tierdb",
+        "thumbnail": "./public/content/images/thumbnail.jpg",
+        "id": 0,
+        "$$hashKey": "object:23"
+      }
+    ]
+  }
+}
